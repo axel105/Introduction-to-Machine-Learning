@@ -1,3 +1,6 @@
+"""
+Authors: Simon S
+"""
 import numpy as np
 from sklearn.model_selection import KFold
 from sklearn.metrics import mean_squared_error
@@ -20,16 +23,14 @@ x_array = np.reshape(x_array, (len(my_data), 13))
 
 #try 2
 # get index arrays for the 10 folds
-
-kf12 = KFold(n_splits=10, shuffle=True, random_state=914)
-kf345 = KFold(n_splits=10, shuffle=True, random_state=304)
+kf = KFold(n_splits=10, shuffle=True, random_state=10000)
 
 # create ridge regression model with lamda = 1.0 and tolerance = machine precision
-ridgeReg1 = linear_model.Ridge(alpha=0.1, tol=np.finfo(float).eps)
-ridgeReg2 = linear_model.Ridge(alpha=1.0, tol=np.finfo(float).eps)
-ridgeReg3 = linear_model.Ridge(alpha=10.0, tol=np.finfo(float).eps)
-ridgeReg4 = linear_model.Ridge(alpha=100.0, tol=np.finfo(float).eps)
-ridgeReg5 = linear_model.Ridge(alpha=200.0, tol=np.finfo(float).eps)
+ridgeReg1 = linear_model.Ridge(alpha=0.1, tol=np.finfo(float).eps, fit_intercept=False)
+ridgeReg2 = linear_model.Ridge(alpha=1.0, tol=np.finfo(float).eps, fit_intercept=False)
+ridgeReg3 = linear_model.Ridge(alpha=10.0, tol=np.finfo(float).eps, fit_intercept=False)
+ridgeReg4 = linear_model.Ridge(alpha=100.0, tol=np.finfo(float).eps, fit_intercept=False)
+ridgeReg5 = linear_model.Ridge(alpha=200.0, tol=np.finfo(float).eps, fit_intercept=False)
 
 errorSum1 = 0.0
 errorSum2 = 0.0
@@ -37,7 +38,7 @@ errorSum3 = 0.0
 errorSum4 = 0.0
 errorSum5 = 0.0
 
-for train_index, test_index in kf12.split(x_array):
+for train_index, test_index in kf.split(x_array):
     # per iteration, the arrays contain the indices for the 9 train folds and 1 test fault respectively
     # print(train_index)
     # print(test_index)
@@ -45,26 +46,19 @@ for train_index, test_index in kf12.split(x_array):
     # train model with train folds
     ridgeReg1.fit(x_array[train_index], y_array[train_index])
     ridgeReg2.fit(x_array[train_index], y_array[train_index])
-
-    # compute the RMSE (with squared false flag) of the test fold
-    error1 = mean_squared_error(y_array[test_index], ridgeReg1.predict(x_array[test_index]), squared=False)
-    error2 = mean_squared_error(y_array[test_index], ridgeReg2.predict(x_array[test_index]), squared=False)
-
-    errorSum1 += error1
-    errorSum2 += error2
-
-for train_index, test_index in kf345.split(x_array):
-    # per iteration, the arrays contain the indices for the 9 train folds and 1 test fault respectively
-
     ridgeReg3.fit(x_array[train_index], y_array[train_index])
     ridgeReg4.fit(x_array[train_index], y_array[train_index])
     ridgeReg5.fit(x_array[train_index], y_array[train_index])
 
     # compute the RMSE (with squared false flag) of the test fold
+    error1 = mean_squared_error(y_array[test_index], ridgeReg1.predict(x_array[test_index]), squared=False)
+    error2 = mean_squared_error(y_array[test_index], ridgeReg2.predict(x_array[test_index]), squared=False)
     error3 = mean_squared_error(y_array[test_index], ridgeReg3.predict(x_array[test_index]), squared=False)
     error4 = mean_squared_error(y_array[test_index], ridgeReg4.predict(x_array[test_index]), squared=False)
     error5 = mean_squared_error(y_array[test_index], ridgeReg5.predict(x_array[test_index]), squared=False)
 
+    errorSum1 += error1
+    errorSum2 += error2
     errorSum3 += error3
     errorSum4 += error4
     errorSum5 += error5

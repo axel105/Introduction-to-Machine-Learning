@@ -1,8 +1,10 @@
 import numpy as np
 import math as m
+from sklearn.linear_model import LinearRegression, Lasso, Ridge
 import csv
 
 #load data into 2d numpy array, leaving out the header line (containing labels)
+# we assume that 'train.csv' is in the same directory as main.py
 my_data = np.genfromtxt('train.csv', delimiter=',', skip_header=1)
 
 # initliaze arrays containing data points and values
@@ -44,4 +46,24 @@ for x in x_features_prelim:
 
 x_array = np.reshape(x_array, (len(my_data), 21))
 
-print(x_array)
+#reg = LinearRegression(fit_intercept=False).fit(x_array, y_array)
+#las = Lasso(alpha=0.00001, tol=np.finfo(float).eps, random_state=456437, max_iter=10000, fit_intercept=False).fit(x_array, y_array)
+rid = Ridge(alpha=0.01, tol=np.finfo(float).eps, fit_intercept=False, random_state=42).fit(x_array, y_array)
+
+print(rid.coef_)
+print(rid.score(x_array, y_array))
+
+with open("submission.csv", 'w') as f:
+
+    # create the csv writer
+    writer = csv.writer(f)
+
+    for coef in rid.coef_:
+        writer.writerow([coef])
+
+    # close the file
+    f.close()
+
+
+
+

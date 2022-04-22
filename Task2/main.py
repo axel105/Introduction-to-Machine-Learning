@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.impute import SimpleImputer
-from sklearn import tree, __all__, neighbors, svm, linear_model
+from sklearn import linear_model
 from sklearn.linear_model import SGDClassifier
 from sklearn.model_selection import KFold
 
@@ -54,18 +54,17 @@ kf = KFold(n_splits=10, shuffle=True)
 # estimators 100: 0.88,0.88, 0.87
 
 # create all classifiers
-clf = RandomForestClassifier(n_estimators=100)
-clf2 = RandomForestClassifier(n_estimators=100)
-clf3 = RandomForestClassifier(n_estimators=100)
-clf4 = RandomForestClassifier(n_estimators=100)
-clf5 = RandomForestClassifier(n_estimators=100)
-clf6 = RandomForestClassifier(n_estimators=100)
-clf7 = RandomForestClassifier(n_estimators=100)
-clf8 = RandomForestClassifier(n_estimators=100)
-clf9 = RandomForestClassifier(n_estimators=100)
-clf10 = RandomForestClassifier(n_estimators=100)
-clf11 = RandomForestClassifier(n_estimators=100)
-clf12 = RandomForestClassifier(n_estimators=100)
+clf = RandomForestClassifier(n_estimators=170, random_state=0) # score = 0.875440148554641
+clf2 = RandomForestClassifier(n_estimators=170, random_state=0) # score = 0.9344563066433856
+clf3 = RandomForestClassifier(n_estimators=100, random_state=0) # score = 0.7812040409079571
+clf4 = RandomForestClassifier(n_estimators=150, random_state=0) # score = 0.7855222693384329
+clf5 = RandomForestClassifier(n_estimators=100, random_state=0) # score = 0.7810482525428896
+clf6 = RandomForestClassifier(n_estimators=150, random_state=0) # score = 0.8389575122640724
+clf7 = RandomForestClassifier(n_estimators=180, random_state=0) # score = 0.9057121476677474
+clf8 = RandomForestClassifier(n_estimators=170, random_state=0) # score = 0.8322741886311356
+clf9 = RandomForestClassifier(n_estimators=120, random_state=0) # score = 0.9676755910312907
+clf10 = RandomForestClassifier(n_estimators=140, random_state=0) # score = 0.9712029600066516
+clf11 = RandomForestClassifier(n_estimators=100, random_state=0)
 
 # fit all classifiers
 print("Let's get started!")
@@ -126,6 +125,7 @@ for patient in test_features_data:
 
     i += 12
     j += 1
+
 TESTS = ['pid', 'LABEL_BaseExcess', 'LABEL_Fibrinogen', 'LABEL_AST', 'LABEL_Alkalinephos', 'LABEL_Bilirubin_total',
          'LABEL_Lactate', 'LABEL_TroponinI', 'LABEL_SaO2',
          'LABEL_Bilirubin_direct', 'LABEL_EtCO2','LABEL_Sepsis', 'LABEL_RRate', 'LABEL_ABPm', 'LABEL_SpO2',

@@ -49,125 +49,160 @@ kf = KFold(n_splits=10, shuffle=True)
 # estimators 200 :  0.88,0.86,0.87,0.86, rly slow
 # entropy, 100 est : 0.87, 0.88, 0.86 , 0.86, 0.87
 # estimators 100: 0.88,0.88, 0.87
-clf = RandomForestClassifier(n_estimators=100)
-clf2 = RandomForestClassifier(n_estimators=100)
-clf3 = RandomForestClassifier(n_estimators=100)
-clf4 = RandomForestClassifier(n_estimators=100)
-clf5 = RandomForestClassifier(n_estimators=100)
-clf6 = RandomForestClassifier(n_estimators=100)
-clf7 = RandomForestClassifier(n_estimators=100)
-clf8 = RandomForestClassifier(n_estimators=100)
-clf9 = RandomForestClassifier(n_estimators=100)
-clf10 = RandomForestClassifier(n_estimators=100)
-clf11 = RandomForestClassifier(n_estimators=100)
-clf12 = RandomForestClassifier(n_estimators=100)
-
-sumScore = 0
-for train_index, test_index in kf.split(train_features_data):
-    clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 1])
-
-    score = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 1])
-    sumScore += score
-    print(score)
-print(sumScore/10)
-
-# label fibrinogen, is pretty slow but very good 0.93
-sumScore2 = 0
-for train_index, test_index in kf.split(train_features_data):
-    clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 2])
-
-    score2 = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 2])
-    sumScore2 += score2
-    print(score2)
-print(sumScore2/10)
-
-# label AST
-sumScore3 = 0
-for train_index, test_index in kf.split(train_features_data):
-    clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 3])
-
-    score3 = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 3])
-    sumScore3 += score3
-    print(score3)
-print(sumScore3/10)
-
-# label Alkalinephos
-sumScore4 = 0
-for train_index, test_index in kf.split(train_features_data):
-    clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 4])
-
-    score4 = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 4])
-    sumScore4 += score4
-    print(score4)
-print(sumScore4/10)
 
 
-# label Bilirubin_total
-sumScore5 = 0
-for train_index, test_index in kf.split(train_features_data):
-    clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 5])
+# best n_estimators = 170, score = 0.875440148554641
+for i in range(1,20):
+    clf = RandomForestClassifier(n_estimators=i*10)
+    sumScore = 0
+    for train_index, test_index in kf.split(train_features_data):
+        clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 1])
 
-    score5 = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 5])
-    sumScore5 += score5
-    print(score5)
-print(sumScore5/10)
+        score = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 1])
+        sumScore += score
 
-# label lactate
-sumScore6 = 0
-for train_index, test_index in kf.split(train_features_data):
-    clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 6])
+    print("label 1, " + str(i) + " estimators, score: " + str(sumScore/10))
 
-    score6 = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 6])
-    sumScore6 += score6
-    print(score6)
-print(sumScore6/10)
+print("-----------------------------------")
 
-# label TroponinI
-sumScore7 = 0
-for train_index, test_index in kf.split(train_features_data):
-    clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 7])
+# label fibrinogen best n_estimators = 170, score = 0.9344563066433856
+for i in range(1,20):
+    clf = RandomForestClassifier(n_estimators=i*10)
+    sumScore2 = 0
+    for train_index, test_index in kf.split(train_features_data):
+        clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 2])
 
-    score7 = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 7])
-    sumScore7 += score7
-    print(score7)
-print(sumScore7/10)
+        score2 = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 2])
+        sumScore2 += score2
 
-# label SaO2
-sumScore8 = 0
-for train_index, test_index in kf.split(train_features_data):
-    clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 8])
+    print("label 2, " + str(i) +" estimators, score: " + str(sumScore2/10))
 
-    score8 = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 8])
-    sumScore8 += score8
-    print(score8)
-print(sumScore8/10)
+print("-----------------------------------")
 
-# label Bilirubin_direct
-sumScore9 = 0
-for train_index, test_index in kf.split(train_features_data):
-    clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 9])
+# label AST, best n = 100, score = 0.7812040409079571
+for i in range(1,20):
+    clf = RandomForestClassifier(n_estimators=i*10)
+    sumScore = 0
+    for train_index, test_index in kf.split(train_features_data):
+        clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 3])
 
-    score9 = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 9])
-    sumScore9 += score9
-    print(score9)
-print(sumScore9/10)
+        score = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 3])
+        sumScore += score
 
-# label ETC02
-sumScore10 = 0
-for train_index, test_index in kf.split(train_features_data):
-    clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 10])
+    print("label 3, " + str(i) +" estimators, score: " + str(sumScore/10))
 
-    score10 = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 10])
-    sumScore10 += score10
-    print(score10)
-print(sumScore10/10)
+print("-----------------------------------")
+
+# label Alkalinephos, best n = 150, score = 0.7855222693384329
+for i in range(1,20):
+    clf = RandomForestClassifier(n_estimators=i*10)
+    sumScore = 0
+    for train_index, test_index in kf.split(train_features_data):
+        clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 4])
+
+        score = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 4])
+        sumScore += score
+
+    print("label 4, " + str(i) +" estimators, score: " + str(sumScore/10))
+
+print("-----------------------------------")
+
+# label Bilirubin_total, best n = 100, score = 0.7810482525428896
+for i in range(1,20):
+    clf = RandomForestClassifier(n_estimators=i*10)
+    sumScore = 0
+    for train_index, test_index in kf.split(train_features_data):
+        clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 5])
+
+        score = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 5])
+        sumScore += score
+
+    print("label 5, " + str(i) +" estimators, score: " + str(sumScore/10))
+
+print("-----------------------------------")
+
+# label lactate, best n = 150, score = 0.8389575122640724
+for i in range(1,20):
+    clf = RandomForestClassifier(n_estimators=i*10)
+    sumScore = 0
+    for train_index, test_index in kf.split(train_features_data):
+        clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 6])
+
+        score = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 6])
+        sumScore += score
+
+    print("label 6, " + str(i) +" estimators, score: " + str(sumScore/10))
+
+print("-----------------------------------")
+
+# label TroponinI, best n = 180, score = 0.9057121476677474
+for i in range(1,20):
+    clf = RandomForestClassifier(n_estimators=i*10)
+    sumScore = 0
+    for train_index, test_index in kf.split(train_features_data):
+        clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 7])
+
+        score = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 7])
+        sumScore += score
+
+    print("label 7, " + str(i) +" estimators, score: " + str(sumScore/10))
+
+print("-----------------------------------")
+
+# label SaO2, best n = 170, score = 0.8322741886311356
+for i in range(1,20):
+    clf = RandomForestClassifier(n_estimators=i*10)
+    sumScore = 0
+    for train_index, test_index in kf.split(train_features_data):
+        clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 8])
+
+        score = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 8])
+        sumScore += score
+
+    print("label 8, " + str(i) +" estimators, score: " + str(sumScore/10))
+
+print("-----------------------------------")
+
+# label Bilirubin_direct, n = 120, score = 0.9676755910312907
+for i in range(1,20):
+    clf = RandomForestClassifier(n_estimators=i*10)
+    sumScore = 0
+    for train_index, test_index in kf.split(train_features_data):
+        clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 9])
+
+        score = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 9])
+        sumScore += score
+
+    print("label 9, " + str(i) +" estimators, score: " + str(sumScore/10))
+
+print("-----------------------------------")
+
+
+
+# label ETC02, n = 140, score = 0.9712029600066516
+for i in range(1,20):
+    clf = RandomForestClassifier(n_estimators=i*10)
+    sumScore = 0
+    for train_index, test_index in kf.split(train_features_data):
+        clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 10])
+
+        score = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 10])
+        sumScore += score
+
+    print("label 10, " + str(i) +" estimators, score: " + str(sumScore/10))
+
+print("-----------------------------------")
+
+
 
 # label Sepsis
-sumScore11 = 0
-for train_index, test_index in kf.split(train_features_data):
-    clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 11])
+for i in range(1,20):
+    clf = RandomForestClassifier(n_estimators=i*10)
+    sumScore = 0
+    for train_index, test_index in kf.split(train_features_data):
+        clf.fit(train_features_data[train_index], train_labels_data[train_index][:, 11])
 
-    score11 = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 11])
-    sumScore11 += score11
-    print(score11)
-print(sumScore11/10)
+        score = clf.score(train_features_data[test_index], train_labels_data[test_index][:, 11])
+        sumScore += score
+
+    print("label 11, " + str(i) +" estimators, score: " + str(sumScore/10))
